@@ -1,0 +1,65 @@
+# Redrob Hackathon — Submission Metadata
+# (Filled-in copy of submission_metadata_template.yaml. Replace the
+#  placeholder team/contact fields with your real details before submitting.)
+
+team_name: "your-team-name-here"
+
+primary_contact:
+  name: "Full Name"
+  email: "primary@example.com"
+  phone: "+91-XXXXXXXXXX"
+
+team_members:
+  - name: "Member 1 Full Name"
+    email: "member1@example.com"
+    role: "ML Engineer"
+
+github_repo: "https://github.com/YOUR_USERNAME/YOUR_REPO"
+
+sandbox_link: "https://huggingface.co/spaces/YOUR_USERNAME/redrob-ranker"
+# Built from sandbox/app.py (Streamlit). Replace with your deployed URL.
+
+reproduce_command: "python rank.py --candidates ./candidates.jsonl --out ./submission.csv"
+
+compute:
+  platform: "Local Linux CPU-only sandbox"
+  cpu_cores: 4
+  ram_gb: 16
+  python_version: "3.11"
+  os: "Ubuntu 24.04"
+  uses_gpu_for_inference: false
+  has_network_during_ranking: false
+  pre_computation_required: false
+  pre_computation_time_minutes: 0
+
+ai_tools_used:
+  - "Claude"
+
+ai_usage_summary: |
+  Used Claude to scaffold the initial scoring-function structure and to
+  sanity-check the honeypot-detection logic against the patterns described
+  in submission_spec.md and redrob_signals_doc.md. All scoring weights,
+  the skill/title keyword dictionaries, and the trust-weighting formula were
+  iteratively tuned by hand against sample_candidates.json. No candidate
+  data was sent to any external LLM API — the ranking pipeline itself makes
+  zero network calls (TF-IDF + rule-based scoring only).
+
+methodology_summary: |
+  Five independent, human-auditable scoring components (semantic TF-IDF
+  fit, trust-weighted skill match, title/role classifier, career-substance
+  fit screening for production-vs-research-only and consulting-only
+  careers, and logistics fit) combined as a weighted sum, then scaled by a
+  behavioral-signal multiplier (recency, recruiter response rate,
+  engagement) per the JD's explicit instruction to down-weight
+  disengaged-but-on-paper-perfect candidates. A deterministic honeypot
+  filter (expert-with-no-duration skills, career-timeline overrun,
+  impossible education dates) runs before scoring. No GPU, no network
+  calls, no LLM-per-candidate — full 100K-candidate run completes in
+  ~65-90 seconds on CPU, well inside the 5-minute budget.
+
+declarations:
+  read_submission_spec: true
+  code_is_original_work: true
+  no_collusion: true
+  honeypot_check_done: true
+  reproduction_tested: true

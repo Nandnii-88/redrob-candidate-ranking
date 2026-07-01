@@ -1,0 +1,8 @@
+candidates.jsonl
+candidates.jsonl.gz
+__pycache__/
+*.pyc
+.DS_Store
+sample_candidates.jsonl
+sample_submission_test.csv
+team_demo.csv
